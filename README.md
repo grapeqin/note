@@ -7,11 +7,9 @@
 
 ## 破解IDEA
 
-* 从[这里](http://idea.lanyus.com/) 选择 [无需使用注册码的破解补丁](http://idea.lanyus.com/jar/JetbrainsIdesCrack-4.2-release-sha1-3323d5d0b82e716609808090d3dc7cb3198b8c4b.jar)
+* 从[这里](http://idea.lanyus.com/) 下载 [无需使用注册码的破解补丁](http://idea.lanyus.com/jar/JetbrainsIdesCrack-4.2-release-sha1-3323d5d0b82e716609808090d3dc7cb3198b8c4b.jar)
 并保存到 IntelliJIDEA.app 中的bin目录下，重命名为`JetbrainsIdesCrack-4.2-release.jar`,之后在 `idea.vmoptions` 的最后一行追加如下内容：
 ``-javaagent:JetbrainsIdesCrack-4.2-release.jar`` 启动IntelliJIDEA即可完成破解 
-
-***
 
 ## FAQ
 
