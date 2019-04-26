@@ -1,12 +1,11 @@
 # Macos10.13下IDEA2018.3.6 安装及破解
 
-##安装IDEA
+## 安装IDEA
+
 * 从[这里](https://www.jetbrains.com/idea/download/previous.html) 选择 `2018.3.6 for macOS (dmg)`
 下载,完成后双击dmg文件即可完成安装
 
-***
-
-##破解IDEA
+## 破解IDEA
 
 * 从[这里](http://idea.lanyus.com/) 选择 [无需使用注册码的破解补丁](http://idea.lanyus.com/jar/JetbrainsIdesCrack-4.2-release-sha1-3323d5d0b82e716609808090d3dc7cb3198b8c4b.jar)
 并保存到 IntelliJIDEA.app 中的bin目录下，重命名为`JetbrainsIdesCrack-4.2-release.jar`,之后在 `idea.vmoptions` 的最后一行追加如下内容：
@@ -14,7 +13,7 @@
 
 ***
 
-##FAQ
+## FAQ
 
 **Q1.:IDEA无法启动**
 
