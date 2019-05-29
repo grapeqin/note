@@ -17,4 +17,4 @@ LeetCode #5: [最长回文子串](2019-05-15-IDEA.md)
 
 ## Spring Boot
 
-[参数校验](springboot/参数校验.md)
+Spring Boot Validation：[参数校验](springboot/参数校验.md)
