@@ -1,0 +1,17 @@
+== 算法(https://github.com/grapeqin/arithmetic.git[源码])
+
+算法演示参考资料：https://github.com/MisterBooo/LeetCodeAnimation
+
+LeetCode #1: link:arithmetic/leetcode/LeetCode1.md[两数之和]
+
+LeetCode #3: link:arithmetic/leetcode/LeetCode3.md[无重复字符的最长子串]
+
+LeetCode #5: link:arithmetic/leetcode/LeetCode5.md[最长回文子串]
+
+== Spring Boot
+
+Spring Boot Validation：link:springboot/参数校验.md[参数校验]
+
+== 开发工具
+
+link:tools/IDEA破解.md[IDEA安装及破解]
