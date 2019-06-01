@@ -1,4 +1,4 @@
-== 算法(https://github.com/grapeqin/arithmetic.git[源码])
+== 算法(link:sources/leetcode[源码])
 
 算法演示参考资料：https://github.com/MisterBooo/LeetCodeAnimation
 
