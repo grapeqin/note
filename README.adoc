@@ -4,6 +4,8 @@
 
 LeetCode #1: link:arithmetic/leetcode/LeetCode1.md[两数之和]
 
+LeetCode #2：link:arithmetic/leetcode/LeetCode2.md[两数相加]
+
 LeetCode #3: link:arithmetic/leetcode/LeetCode3.md[无重复字符的最长子串]
 
 LeetCode #5: link:arithmetic/leetcode/LeetCode5.md[最长回文子串]
