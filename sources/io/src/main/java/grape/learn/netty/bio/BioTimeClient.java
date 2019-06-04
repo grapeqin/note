@@ -16,7 +16,7 @@ import java.net.Socket;
 public class BioTimeClient {
 	
 	public static void main(String[] args){
-		new BioTimeClient().startClient("localhost",8080);
+		new BioTimeClient().startClient("localhost",1080);
 	}
 
 	/**
@@ -66,5 +66,7 @@ public class BioTimeClient {
 				}
 			}
 		}
+
+
 	}
 }

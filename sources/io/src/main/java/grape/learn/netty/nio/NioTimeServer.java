@@ -9,6 +9,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -19,9 +20,11 @@ import java.util.Set;
 public class NioTimeServer {
 
 	private volatile boolean stop = false;
+
+	private static final String REQ = "QUERY SERVER TIME";
 	
 	public static void main(String[] args){
-		new NioTimeServer().startServer(8080);
+		new NioTimeServer().startServer(1080);
 	}
 
 	/**
@@ -32,22 +35,27 @@ public class NioTimeServer {
 		try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 			 Selector selector = Selector.open()){
 			//1.创建ServerSocketChannel 并绑定
+			//2.创建多路复用器Selector
 			serverSocketChannel.configureBlocking(false);
 			serverSocketChannel.bind(new InetSocketAddress(port));
 			System.out.println("serverSocketChannel bind success!");
 
-			//2.创建多路复用器Selector
 			//3.将ServerSocketChannel 注册到 Selector
 			serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 			System.out.println("serverSocketChannel register to selector success!");
 
 			//4.遍历selector.select
 			Set<SelectionKey> selectionKeys;
+
 			while (!stop){
 				selector.select();
 				selectionKeys = selector.selectedKeys();
-				for(SelectionKey key : selectionKeys){
+				Iterator<SelectionKey> it = selectionKeys.iterator();
+				SelectionKey key = null;
+				while (it.hasNext()){
 					//5. key 有效 则进行业务处理
+					key = it.next();
+					it.remove();
 					if(key.isValid()){
 						handleKey(key);
 					}
@@ -75,12 +83,14 @@ public class NioTimeServer {
 			catch (IOException e) {
 				e.printStackTrace();
 			}
-		}else if(key.isReadable()){//2.如果是读事件，表示客户端发上来的请求数据
+		}else if(key.isReadable()){
+			//2.如果是读事件，表示客户端发上来的请求数据
 			SocketChannel socketChannel = (SocketChannel) key.channel();
 			ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 			try {
 				int length = socketChannel.read(byteBuffer);
-				if(length > 0){//1.读取到内容了
+				if(length > 0){
+					//1.读取到内容了
 					byteBuffer.flip();
 
 					byte[] body = new byte[byteBuffer.remaining()];
@@ -90,7 +100,7 @@ public class NioTimeServer {
 					System.out.println("server has received: " + req);
 
 					String rsp = "BAD REQUEST!";
-					if("QUERY SERVER TIME".equalsIgnoreCase(req)){
+					if(REQ.equalsIgnoreCase(req)){
 						rsp = Instant.now().toString();
 					}
 					doWrite(socketChannel,rsp);
@@ -114,8 +124,9 @@ public class NioTimeServer {
 	 * @param rsp
 	 */
 	private void doWrite(SocketChannel socketChannel,String rsp){
+		ByteBuffer byteBuffer = ByteBuffer.allocate(rsp.length());
 		try {
-			ByteBuffer byteBuffer = ByteBuffer.wrap(rsp.getBytes("UTF-8"));
+			byteBuffer.put(rsp.getBytes("UTF-8"));
 			byteBuffer.flip();
 
 			socketChannel.write(byteBuffer);

@@ -18,10 +18,24 @@
 
 * Server 实现步骤
 
-
+1. 创建多路复用器Selector,创建ServerSocketChannel
+2. 设置ServerSocketChannel为异步Channel,并绑定到监听host和port
+3. 将ServerSocketChannel 注册到 Selector
+4. 执行Selector的select方法,并通过selectedKeys()获取就绪的Keys集合
+5. 迭代SelectedKeys集合,此处注意**在迭代中务必将已处理的SelectedKey移除**
+6. 如果是Accept事件，通过ServerSocketChannel的accept()方法获取接入的SocketChannel，向Selector注册READ事件
+7. 如果是Read事件，表示接收到client发送的数据,构造ByteBuffer并通过SocketChannel的read方法将数据读到ByteBuffer进行业务处理
+8. 根据业务需要通过SocketChannel向client回写数据
 
 * Client 实现步骤
 
+1. 创建多路复用器Selector，创建SocketChannel
+2. 设置SocketChannel为异步Channel
+3. SocketChannel发起connect请求，由于步骤2设置该Channel为异步，当前connect操作不会阻塞
+4. 将SocketChannel的Connect事件注册到Selector
+5. 执行Selector的select方法,并通过selectedKeys()获取就绪的Keys集合
+6. 如果是Connect事件，判断连接是否建立完成，若建立好则向Server发送请求数据，并将SocketChannel的读事件注册到Selector，监听Server的响应数据
+7. 如果是Read事件，借助ByteBuffer从SocketChannel读取Server响应数据完成业务逻辑
 
 ### 3. 基于AIO的实现
 

@@ -18,7 +18,7 @@ import grape.learn.netty.bio.BioTimeServer.TimeServerHandler;
 public class ForgeBioTimeServer {
 
 	public static void main(String[] args) throws IOException {
-		new BioTimeServer().startServer(8080);
+		new BioTimeServer().startServer(1080);
 	}
 
 	/**

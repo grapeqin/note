@@ -17,7 +17,7 @@ import java.time.Instant;
 public class BioTimeServer {
 
 	public static void main(String[] args) throws IOException {
-		new BioTimeServer().startServer(8080);
+		new BioTimeServer().startServer(1080);
 	}
 
 	/**
