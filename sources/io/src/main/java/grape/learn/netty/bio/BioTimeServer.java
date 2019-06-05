@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * 时间服务器Server端
@@ -64,7 +65,7 @@ public class BioTimeServer {
 					String rsp = "BAD REQUEST!";
 					System.out.println("client request msg : " + msg);
 					if("QUERY SERVER TIME".equalsIgnoreCase(msg)){
-						rsp = Instant.now().toString();
+						rsp = LocalDateTime.now().toString();
 					}
 					//3. 向客户端响应
 					printWriter.println(rsp);

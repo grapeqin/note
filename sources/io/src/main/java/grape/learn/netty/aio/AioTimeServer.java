@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -102,7 +102,7 @@ public class AioTimeServer {
 						System.out.println("client send req:" + req);
 						String rsp = "BAD REQUEST!";
 						if(REQ.equalsIgnoreCase(req)){
-							rsp = Instant.now().toString();
+							rsp = LocalDateTime.now().toString();
 							writeResponseToClient(socketChannel,rsp);
 						}
 					}

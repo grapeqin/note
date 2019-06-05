@@ -8,7 +8,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -101,7 +101,7 @@ public class NioTimeServer {
 
 					String rsp = "BAD REQUEST!";
 					if(REQ.equalsIgnoreCase(req)){
-						rsp = Instant.now().toString();
+						rsp = LocalDateTime.now().toString();
 					}
 					doWrite(socketChannel,rsp);
 				}else if(length < 0){
