@@ -1,6 +1,6 @@
-## 基于Netty实现TimeServer(入门版)
+* 以下所有示例均基于**netty-all.5.0.0.Alpha1**
 
-* 示例基于**netty-all.5.0.0.Alpha1**
+## 基于Netty实现TimeServer(入门版)
 
 * Server 实现步骤  [NettyTimeServer](src/main/java/grape/learn/netty/NettyTimeServer.java)
 
@@ -21,3 +21,18 @@
 
 * 从代码量上来看，实现同样的业务逻辑，Netty在Server和Client实现中的编码量相比Java NIO都要少
 * 从程序实现细节来看，Netty将NIO的很多细节都隐藏起来了，对应用开发者来说只需要重点关注自己的业务逻辑
+
+
+<div id="stickunpackresolved"></div>
+
+## 模拟TCP粘包问题的TimeServer实现
+
+* Server 实现步骤 [StickUnpackNettyTimeServer](src/main/java/grape/learn/netty/StickUnpackNettyTimeServer.java)
+
+* Client 实现步骤 [StickUnpackNettyTimeClient](src/main/java/grape/learn/netty/StickUnpackNettyTimeClient.java)
+
+## 利用LineBasedFrameDecoder和StringDecoder 解决TCP粘包问题
+
+* Server 实现步骤 [StickUnpackResolvedNettyTimeServer](src/main/java/grape/learn/netty/StickUnpackResolvedNettyTimeServer.java)
+
+* Client 实现步骤 [StickUnpackResolvedNettyTimeClient](src/main/java/grape/learn/netty/StickUnpackResolvedNettyTimeClient.java)
