@@ -19,3 +19,22 @@
 2. 定长解码器FixedLengthFrameDecoder应用实例
 
     - 请参考[基于FixedLengthFrameDecoder实现的EchoServer](../sources/netty-guide/readme.md/#stickunpackresolved)
+    
+### Chapter 5 : 编解码技术
+
+1. Java 序列化
+    
+* Java序列化的用途
+    - 网络传输
+    - 对象持久化
+    
+* Java序列化的缺点
+    - 无法跨语言
+    - 序列化后的码流太大
+    - 性能差 
+    
+2. 主流编解码框架介绍
+
+* MessagePack
+* Google的Protobuf
+* Facebook的Thrift
