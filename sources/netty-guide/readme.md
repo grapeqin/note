@@ -23,6 +23,9 @@
 * 从程序实现细节来看，Netty将NIO的很多细节都隐藏起来了，对应用开发者来说只需要重点关注自己的业务逻辑
 
 
+***
+
+
 <div id="stickunpackresolved"></div>
 
 ## 模拟TCP粘包问题的TimeServer实现
@@ -37,10 +40,19 @@
 
 * Client 实现步骤 [StickUnpackResolvedNettyTimeClient](src/main/java/grape/learn/netty/StickUnpackResolvedNettyTimeClient.java)
 
-<div id="delimiter"></div>
 
 ## 分隔符DelimiterBasedFrameDecoder的使用
 
 * Server 实现步骤 [NettyDelimiterEchoServer](src/main/java/grape/learn/netty/codec/NettyDelimiterEchoServer.java)
 
 * Client 实现步骤 [NettyDelimiterEchoClient](src/main/java/grape/learn/netty/codec/NettyDelimiterEchoClient.java)
+
+## 固定长度FixedLengthFrameDecoder的使用
+
+* Server 实现步骤 [NettyFixedLengthEchoServer](src/main/java/grape/learn/netty/codec/NettyFixedLengthEchoServer.java)
+
+* Client 实现步骤 [NettyFixedLengthEchoClient](src/main/java/grape/learn/netty/codec/NettyFixedLengthEchoClient.java)
+
+**Netty解决TCP粘包/拆包问题**
+
+* 提供了多种解码器来帮助业务开发人员避免TCP粘包/拆包问题,大大简化了程序开发,确保程序的正确性

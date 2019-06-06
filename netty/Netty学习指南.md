@@ -14,7 +14,8 @@
 
 1. 分隔符解码器DelimiterBasedFrameDecoder应用实例
 
-    - 请参考[基于DelimiterBasedFrameDecoder实现的EchoServer](../sources/netty-guide/readme.md/#delimiter)
+    - 请参考[基于DelimiterBasedFrameDecoder实现的EchoServer](../sources/netty-guide/readme.md/#stickunpackresolved)
 
 2. 定长解码器FixedLengthFrameDecoder应用实例
 
+    - 请参考[基于FixedLengthFrameDecoder实现的EchoServer](../sources/netty-guide/readme.md/#stickunpackresolved)
