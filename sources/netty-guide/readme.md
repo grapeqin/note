@@ -56,3 +56,24 @@
 **Netty解决TCP粘包/拆包问题**
 
 * 提供了多种解码器来帮助业务开发人员避免TCP粘包/拆包问题,大大简化了程序开发,确保程序的正确性
+
+***
+
+<div id="codec-messagepack"></div>
+
+## MessagePack 编解码实例
+
+* MessagePack 示例 [MsgPackDemo](src/main/java/grape/learn/netty/codec/msgpack/MsgPackDemo.java)
+
+* Server 实现步骤 [NettyMsgPackEchoServer](src/main/java/grape/learn/netty/codec/msgpack/NettyMsgPackEchoServer.java)
+
+* Client 实现步骤 [NettyMsgPackEchoClient](src/main/java/grape/learn/netty/codec/msgpack/NettyMsgPackEchoClient.java)
+
+
+## Protobuf 编解码实例
+
+* ProtoBuf 示例
+
+* Server 实现步骤
+
+* Client 实现步骤

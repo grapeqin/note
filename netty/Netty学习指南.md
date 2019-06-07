@@ -35,6 +35,5 @@
     
 2. 主流编解码框架介绍
 
-* MessagePack
+* [MessagePack](../sources/netty-guide/readme.md/#codec-messagepack) 
 * Google的Protobuf
-* Facebook的Thrift
