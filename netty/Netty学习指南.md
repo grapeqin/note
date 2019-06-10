@@ -20,6 +20,11 @@
 
     - 请参考[基于FixedLengthFrameDecoder实现的EchoServer](../sources/netty-guide/readme.md/#stickunpackresolved)
     
+3. 消息长度解码器LengthFieldBasedFrameDecoder、编码器LengthFieldPrepender使用
+
+   - 编码器 LengthFieldPrepender
+   - 解码器 LengthFieldBasedFrameDecoder
+    
 ### Chapter 5 : 编解码技术
 
 1. Java 序列化
@@ -37,3 +42,10 @@
 
 * [MessagePack](../sources/netty-guide/readme.md/#codec-messagepack) 
 * Google的Protobuf
+
+### Chapter 6 ： HTTP协议开发应用
+
+1. [Http静态文件服务器实例](../sources/netty-guide/readme.md/#protocol-http) 
+
+
+
