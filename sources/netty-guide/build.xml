@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+
+<!-- ===================================================================
+
+Ant build file for JiBX data binding code to schema starter example.
+
+=================================================================== -->
+
+<project basedir="." default="help">
+
+	<!-- The following block is intended to set the jibx-home location. It first
+	 checks the relative location of the JiBX libraries when this starter example
+	 is run directly from the JiBX distribution, then (if that fails), looks for
+	 an environmental variable JIBX_HOME with the installation path. If you prefer
+	 to just set the path directly in this file, uncomment the following line and
+	 set the value to the appropriate directory, then delete the rest of the Ant
+	 commands down to the end of this block. -->
+	<!--  <property name="jibx-home" value="jibx-home-directory-path"/> -->
+	<available file="/usr/local/jibx/lib/jibx-bind.jar" property="jibx-home"
+			   value="/usr/local/jibx/"/>
+	<property environment="env"/>
+	<condition property="jibx-home" value="${env.JIBX_HOME}">
+		<and>
+			<not>
+				<isset property="jibx-home"/>
+			</not>
+			<available file="${env.JIBX_HOME}/lib"/>
+		</and>
+	</condition>
+	<!-- End of jibx-home location setting block. -->
+
+	<!-- make sure required jars are present -->
+	<condition property="runtime-jars-found">
+		<available file="${jibx-home}/lib/jibx-run.jar"/>
+	</condition>
+	<condition property="binding-jars-found">
+		<and>
+			<available file="${jibx-home}/lib/bcel.jar"/>
+			<available file="${jibx-home}/lib/jibx-bind.jar"/>
+			<available file="${jibx-home}/lib/jibx-run.jar"/>
+		</and>
+	</condition>
+	<available property="extras-jar-found" file="${jibx-home}/lib/jibx-extras.jar"/>
+
+	<!-- set classpath for compiling and running application with JiBX -->
+	<path id="classpath">
+		<fileset dir="${jibx-home}/lib" includes="*.jar"/>
+		<pathelement location="target/classes"/>
+	</path>
+
+	<!-- make sure runtime jars are present -->
+	<target name="check-runtime">
+		<fail unless="jibx-home">JiBX home directory not found - define JIBX_HOME system
+			property or set path directly in build.xml file.
+		</fail>
+		<fail unless="runtime-jars-found">Required JiBX runtime jar jibx-run.jar was not
+			found in JiBX home lib directory (${jibx-home}/lib)
+		</fail>
+	</target>
+
+	<!-- make sure extras jars are present -->
+	<target name="check-extras" depends="check-runtime">
+		<fail unless="extras-jar-found">Required JiBX extras jar jibx-extras.jar was not
+			found in JiBX home lib directory (${jibx-home}/lib)
+		</fail>
+	</target>
+
+	<!-- make sure binding jars are present -->
+	<target name="check-binding" depends="check-runtime">
+		<fail unless="binding-jars-found">Required JiBX binding jar jibx-bind.jar or
+			bcel.jar was not found in JiBX home lib directory (${jibx-home}/lib)
+		</fail>
+	</target>
+
+	<!-- clean compiled class files and output file -->
+	<target name="clean">
+		<delete quiet="true" dir="${basedir}/target/classes"/>
+		<delete quiet="true" file="${basedir}/binding.xml"/>
+		<delete quiet="true">
+			<fileset dir="${basedir}" includes="out*.xml"/>
+			<fileset dir="${basedir}" includes="*.xsd"/>
+		</delete>
+	</target>
+
+	<!-- compile the classes -->
+	<target name="compile" depends="clean,check-runtime">
+
+		<echo message="Compiling Java source code"/>
+		<delete quiet="true" dir="${basedir}/target/classes"/>
+		<mkdir dir="${basedir}/target/classes"/>
+		<javac srcdir="${basedir}/src/main/java" destdir="${basedir}/target/classes"
+			   debug="on">
+			<classpath refid="classpath"/>
+		</javac>
+
+	</target>
+
+	<!-- generate default binding and schema -->
+	<target name="bindgen">
+
+		<echo message="Running BindGen tool"/>
+		<java classpathref="classpath" fork="true" failonerror="true"
+			  classname="org.jibx.binding.generator.BindGen">
+			<arg value="-s"/>
+			<arg value="${basedir}/src/main/java"/>
+			<arg value="-t"/>
+			<arg value="${basedir}/target"/>
+			<arg value="grape.learn.netty.protocol.http.xml.Order"/>
+		</java>
+
+	</target>
+
+	<!-- bind as a separate step -->
+	<target name="bind" depends="check-binding,bindgen">
+
+		<echo message="Running JiBX binding compiler"/>
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<fileset dir="${jibx-home}/lib" includes="*.jar"/>
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/target/binding.xml">
+			<classpath refid="classpath"/>
+		</bind>
+
+	</target>
+
+	<!-- show list of targets -->
+	<target name="help">
+		<echo message="Targets are:"/>
+		<echo/>
+		<echo message="clean         delete all class files and generated code"/>
+		<echo message="compile       compile class files"/>
+		<echo message="bindgen       generate default binding and schema"/>
+		<echo message="custgen1      generate binding and schema using custom1.xml"/>
+		<echo message="custgen2      generate binding and schema using custom2.xml"/>
+		<echo message="custgen3      generate binding and schema using custom3.xml"/>
+		<echo message="bind          compile JiBX bindings"/>
+		<echo message="run-base      run test application with data1.xml as input"/>
+		<echo message="run-alt       run test application with data2.xml as input"/>
+		<echo message="run-alt1      run alternative test application with data2.xml"/>
+		<echo message="full          compile, generate using defaults, bind, and test"/>
+		<echo message="custom1       compile, generate using custom1.xml, bind, and test"/>
+		<echo message="custom2       compile, generate using custom2.xml, bind, and test"/>
+		<echo message="custom3       compile, generate using custom3.xml, bind, and test"/>
+	</target>
+
+</project>

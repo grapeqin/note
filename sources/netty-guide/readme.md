@@ -88,3 +88,19 @@
 
 * Http协议开发的静态文件服务器
   [HttpStaticFileServer](src/main/java/grape/learn/netty/protocol/http/file/HttpStaticFileServer.java)
+  
+* Http+XML开发的简易订购服务 
+  - XML处理工具类[jibx](http://jibx.sourceforge.net/getting-started.html)
+    1. 编写Object类，请参考[Order](src/main/java/grape/learn/netty/protocol/http/xml/Order.java)、Customer、Address和Shipping
+    2. 安装Jibx
+       ，从[SourceForge downloads page](https://sourceforge.net/projects/jibx/files/)下载最新的jibx版本，解压缩到/usr/local/jibx；并配置环境变量JIBX_HOME=/usr/local/jibx
+       Class生成binding.xml和xsd文件，请参考
+       [bindgen](http://jibx.sourceforge.net/fromcode/bindgen.html)
+    3. 利用[bindgen](http://jibx.sourceforge.net/fromcode/bindgen.html)
+       来基于source code 生成
+       bingding.xml和xsd文件：参考[build.xml](build.xml)
+       配置ant中bindgen和bind 两个task；依次执行bindgen和bind
+       两个任务，保证任务执行无错误，如有错误，请根据错误信息排查问题并改进
+    4. 到项目根目录[pom.xml](pom.xml)中增加jibx runtime相关的依赖jibx-run
+    5. 创建[TestOrder](src/main/java/grape/learn/netty/protocol/http/xml/TestOrder.java)，在IDE中执行TestOrder时请**务必在Run Configuration中的Build中添加Ant中的bind任务**
+    
