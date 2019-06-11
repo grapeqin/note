@@ -1,11 +1,14 @@
 package grape.learn.netty.protocol.http.xml;
 
+import lombok.ToString;
+
 /**
  * 订单信息
  *
  * @author grape
  * @date 2019-06-10
  */
+@ToString
 public class Order {
   private long orderNumber;
 

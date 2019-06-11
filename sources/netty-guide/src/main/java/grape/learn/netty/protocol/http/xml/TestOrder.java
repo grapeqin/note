@@ -46,6 +46,10 @@ public class TestOrder {
     String xml = writer.toString();
     writer.close();
     System.out.println(xml);
+    /*
+         *<?xml version="1.0" encoding="UTF-8"?>
+    <order xmlns="http://grape.learn/netty/protocol/http/xml" orderNumber="123"/>
+         * */
     return xml;
   }
 
@@ -70,5 +74,8 @@ public class TestOrder {
     String body = test.encode2Xml(order);
     Order order2 = test.decodeFromXml(body);
     System.out.println(order2);
+    /*
+     *Order(orderNumber=123, customer=null, billTo=null, shipping=null, shipTo=null, total=null)
+     * */
   }
 }
