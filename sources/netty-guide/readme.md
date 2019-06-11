@@ -104,3 +104,8 @@
     4. 到项目根目录[pom.xml](pom.xml)中增加jibx runtime相关的依赖jibx-run
     5. 创建[TestOrder](src/main/java/grape/learn/netty/protocol/http/xml/TestOrder.java)，在IDE中执行TestOrder时请**务必在Run Configuration中的Build中添加Ant中的bind任务**
     
+  - Http+XML的服务示例
+  
+    1. Client发送请求 Server接收请求实现
+        
+    2. Server接收请求后返回消息 Client接收返回消息实现   

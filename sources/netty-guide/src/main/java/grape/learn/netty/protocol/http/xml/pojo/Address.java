@@ -1,4 +1,6 @@
-package grape.learn.netty.protocol.http.xml;
+package grape.learn.netty.protocol.http.xml.pojo;
+
+import lombok.ToString;
 
 /**
  * 账单地址信息
@@ -6,6 +8,7 @@ package grape.learn.netty.protocol.http.xml;
  * @author grape
  * @date 2019-06-10
  */
+@ToString
 public class Address {
   private String street1;
 

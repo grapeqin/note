@@ -1,4 +1,4 @@
-package grape.learn.netty.protocol.http.xml;
+package grape.learn.netty.protocol.http.xml.pojo;
 
 /**
  * 快递方式

@@ -1,6 +1,8 @@
-package grape.learn.netty.protocol.http.xml;
+package grape.learn.netty.protocol.http.xml.pojo;
 
 import java.util.List;
+
+import lombok.ToString;
 
 /**
  * 订单关联的客户
@@ -8,6 +10,7 @@ import java.util.List;
  * @author grape
  * @date 2019-06-10
  */
+@ToString
 public class Customer {
   private long customerNumber;
 
