@@ -86,36 +86,32 @@
 
 ### HTTP协议开发与应用
 
-* Http协议开发的静态文件服务器
+#### 一、Http协议开发的静态文件服务器
+
   [HttpStaticFileServer](src/main/java/grape/learn/netty/protocol/http/file/HttpStaticFileServer.java)
   
-* Http+XML开发的简易订购服务 
-  - XML处理工具类[jibx](http://jibx.sourceforge.net/getting-started.html)
-    1. 编写Object类，请参考[Order](src/main/java/grape/learn/netty/protocol/http/xml/Order.java)、Customer、Address和Shipping
-    2. 安装Jibx
-       ，从[SourceForge downloads page](https://sourceforge.net/projects/jibx/files/)下载最新的jibx版本，解压缩到/usr/local/jibx；并配置环境变量JIBX_HOME=/usr/local/jibx
-       Class生成binding.xml和xsd文件，请参考
-       [bindgen](http://jibx.sourceforge.net/fromcode/bindgen.html)
-    3. 利用[bindgen](http://jibx.sourceforge.net/fromcode/bindgen.html)
-       来基于source code 生成
-       bingding.xml和xsd文件：参考[build.xml](build.xml)
-       配置ant中bindgen和bind 两个task；依次执行bindgen和bind
-       两个任务，保证任务执行无错误，如有错误，请根据错误信息排查问题并改进
-    4. 到项目根目录[pom.xml](pom.xml)中增加jibx runtime相关的依赖jibx-run
-    5. 创建[TestOrder](src/main/java/grape/learn/netty/protocol/http/xml/TestOrder.java)，在IDE中执行TestOrder时请**务必在Run Configuration中的Build中添加Ant中的bind任务**
+#### 二、Http+XML开发的简易订购服务 
+
+##### 1、XML处理工具类[jibx](http://jibx.sourceforge.net/getting-started.html)
+
+1. 编写Object类，请参考[Order](src/main/java/grape/learn/netty/protocol/http/xml/Order.java)、Customer、Address和Shipping
+1. 安装Jibx，从[SourceForge downloads page](https://sourceforge.net/projects/jibx/files/)下载最新的jibx版本，解压缩到/usr/local/jibx；并配置环境变量JIBX_HOME=/usr/local/jibxClass生成binding.xml和xsd文件，请参考[bindgen](http://jibx.sourceforge.net/fromcode/bindgen.html)利用[bindgen](http://jibx.sourceforge.net/fromcode/bindgen.html)来基于source code 生成bingding.xml和xsd文件：参考[build.xml](build.xml)
+1. 配置ant中bindgen和bind 两个task；依次执行bindgen和bind两个任务，保证任务执行无错误，如有错误，请根据错误信息排查问题并改进
+1. 到项目根目录[pom.xml](pom.xml)中增加jibx runtime相关的依赖jibx-run
+1. 创建[TestOrder](src/main/java/grape/learn/netty/protocol/http/xml/TestOrder.java)，在IDE中执行TestOrder时请**务必在Run Configuration中的Build中添加Ant中的bind任务**
     
-  - Http+XML的服务示例
+##### 2、Http+XML的服务示例
   
-    - Client发送请求 Server接收请求实现
+###### Client发送请求 Server接收请求实现
+
+1. 协议设计：为保持业务层面对Http的扩展性，我们创建HttpXmlRequest对象来承载业务对象
+1. Client端发送数据，从pipeline协议编码时序图来说，首先需要自定义编码器HttpXmlEncoder将HttpXmlRequest对象编码为FullHttpRequest对象，然后使用Netty提供的HttpEncoder将FullHttpRequest对象编码为字节码
+1. Server端接收数据，从pipeline协议解析时序图来说，首先需要借助于HttpRequestDecoder和HttpObjectAggregator将字节流解码为FullHttpRequest对象，然后使用我们自定义的HttpXmlDecoder解码器将FullHttpRequest对象解码为HttpXmlRequest对象
+1. 依次创建并启动NettyHttpXmlOrderServer和NettyHttpXmlOrderClient
     
-    1. [ ] 协议设计：为保持业务层面对Http的扩展性，我们创建HttpXmlRequest对象来承载业务对象
-    1. [ ] Client端发送数据，从pipeline协议编码时序图来说，首先需要自定义编码器HttpXmlEncoder将HttpXmlRequest对象编码为FullHttpRequest对象，然后使用Netty提供的HttpEncoder将FullHttpRequest对象编码为字节码
-    1. [ ] Server端接收数据，从pipeline协议解析时序图来说，首先需要借助于HttpRequestDecoder和HttpObjectAggregator将字节流解码为FullHttpRequest对象，然后使用我们自定义的HttpXmlDecoder解码器将FullHttpRequest对象解码为HttpXmlRequest对象
-    1. [ ] 依次创建并启动NettyHttpXmlOrderServer和NettyHttpXmlOrderClient
-        
-    - Server接收请求后返回消息 Client接收返回消息实现
-    
-    1. [ ] 协议设计：参考HttpXmlRequest设计思路，创建HttpXmlResponse对象
-    1. [ ] Server端回复数据，从pipeline协议编码时序图来说，首先需要自定义编码器HttpXmlResponseEncoder将HttpXmlResponse对象编码为FullHttpResponse对象，然后使用Netty提供的HttpEncoder将FullHttpResponse对象编码为字节码
-    1. [ ] Client端接收响应数据，从pipeline协议解码时序图来说，首先需要借助于HttpRequestDecoder和HttpObjectAggregator将字节流解码为FullHttpResponse对象，然后使用自定义解码器HttpXmlResponseDecoder将FullHttpResponse对象解码为HttpXmlResponse对象，供应用层使用
-    1. [ ] 依次在NettyHttpXmlOrderServer和NettyHttpXmlOrderClient 中追加以上自定义的编解码器，并补充完善业务Handler
+###### Server接收请求后返回消息 Client接收返回消息实现
+
+1. 协议设计：参考HttpXmlRequest设计思路，创建HttpXmlResponse对象
+1. Server端回复数据，从pipeline协议编码时序图来说，首先需要自定义编码器HttpXmlResponseEncoder将HttpXmlResponse对象编码为FullHttpResponse对象，然后使用Netty提供的HttpEncoder将FullHttpResponse对象编码为字节码
+1. Client端接收响应数据，从pipeline协议解码时序图来说，首先需要借助于HttpRequestDecoder和HttpObjectAggregator将字节流解码为FullHttpResponse对象，然后使用自定义解码器HttpXmlResponseDecoder将FullHttpResponse对象解码为HttpXmlResponse对象，供应用层使用
+1. 依次在NettyHttpXmlOrderServer和NettyHttpXmlOrderClient 中追加以上自定义的编解码器，并补充完善业务Handler

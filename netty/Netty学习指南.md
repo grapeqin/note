@@ -45,7 +45,9 @@
 
 ### Chapter 6 ： HTTP协议开发应用
 
-1. [Http静态文件服务器实例](../sources/netty-guide/readme.md/#protocol-http) 
+1. [Http静态文件服务器实例](../sources/netty-guide/readme.md/#protocol-http)
+
+1. [Http+Xml简易订购实例](../sources/netty-guide/readme.md/#protocol-http) 
 
 
 
