@@ -11,7 +11,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestEncoder;
+import io.netty.handler.codec.http.HttpResponseDecoder;
 
 /**
  * 基于Http+Xml的订单客户端实现
@@ -34,9 +36,13 @@ public class NettyHttpXmlOrderClient {
               @Override
               protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
+                    // 解码器
+                    .addLast(new HttpResponseDecoder())
+                    .addLast(new HttpObjectAggregator(65535))
+                    .addLast(new HttpXmlResponseDecoder(Order.class, true))
                     // 编码器
                     .addLast(new HttpRequestEncoder())
-                    .addLast(new HttpXmlEncoder())
+                    .addLast(new HttpXmlRequestEncoder())
                     // 业务逻辑Handler
                     .addLast(new OrderClientHandler());
               }
@@ -55,7 +61,6 @@ public class NettyHttpXmlOrderClient {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-      super.exceptionCaught(ctx, cause);
       cause.printStackTrace();
       ctx.close();
     }
@@ -66,6 +71,14 @@ public class NettyHttpXmlOrderClient {
           new HttpXmlRequest<>(null, OrderFacory.createOrder(123456));
       System.out.println("client send:" + httpXmlRequest);
       ctx.writeAndFlush(httpXmlRequest);
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+      System.out.println("============================================");
+      if (msg instanceof HttpXmlResponse) {
+        System.out.println("server response:" + msg);
+      }
     }
   }
 }

@@ -19,7 +19,7 @@ import io.netty.handler.codec.http.HttpVersion;
  * @author grape
  * @date 2019-06-11
  */
-public class HttpXmlEncoder extends AbstractHttpXmlEncoder<HttpXmlRequest> {
+public class HttpXmlRequestEncoder extends AbstractHttpXmlEncoder<HttpXmlRequest> {
 
   @Override
   protected void encode(ChannelHandlerContext ctx, HttpXmlRequest msg, List<Object> out)
