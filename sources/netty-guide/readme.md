@@ -104,7 +104,7 @@
 
 ###### Quick Start
 ```jshelllanguage
-mvn clean compile antrun:run@bindgen jibx:bind exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyHttpXmlOrderServer"
+mvn clean compile exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyHttpXmlOrderServer"
 
 mvn exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyHttpXmlOrderClient"
 ```

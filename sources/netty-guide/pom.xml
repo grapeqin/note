@@ -73,7 +73,7 @@
 				<version>1.8</version>
 				<executions>
 					<execution>
-						<id>bindgen</id>
+						<phase>compile</phase>
 						<configuration>
 							<target>
 								<ant antfile="${basedir}/build.xml">
@@ -97,6 +97,7 @@
 				</configuration>
 				<executions>
 					<execution>
+						<phase>compile</phase>
 						<goals>
 							<goal>bind</goal>
 						</goals>
