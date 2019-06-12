@@ -110,39 +110,4 @@ Ant build file for JiBX data binding code to schema starter example.
 
 	</target>
 
-	<!-- bind as a separate step -->
-	<target name="bind" depends="check-binding,bindgen">
-
-		<echo message="Running JiBX binding compiler"/>
-		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
-			<classpath>
-				<fileset dir="${jibx-home}/lib" includes="*.jar"/>
-			</classpath>
-		</taskdef>
-		<bind binding="${basedir}/target/binding.xml">
-			<classpath refid="classpath"/>
-		</bind>
-
-	</target>
-
-	<!-- show list of targets -->
-	<target name="help">
-		<echo message="Targets are:"/>
-		<echo/>
-		<echo message="clean         delete all class files and generated code"/>
-		<echo message="compile       compile class files"/>
-		<echo message="bindgen       generate default binding and schema"/>
-		<echo message="custgen1      generate binding and schema using custom1.xml"/>
-		<echo message="custgen2      generate binding and schema using custom2.xml"/>
-		<echo message="custgen3      generate binding and schema using custom3.xml"/>
-		<echo message="bind          compile JiBX bindings"/>
-		<echo message="run-base      run test application with data1.xml as input"/>
-		<echo message="run-alt       run test application with data2.xml as input"/>
-		<echo message="run-alt1      run alternative test application with data2.xml"/>
-		<echo message="full          compile, generate using defaults, bind, and test"/>
-		<echo message="custom1       compile, generate using custom1.xml, bind, and test"/>
-		<echo message="custom2       compile, generate using custom2.xml, bind, and test"/>
-		<echo message="custom3       compile, generate using custom3.xml, bind, and test"/>
-	</target>
-
 </project>

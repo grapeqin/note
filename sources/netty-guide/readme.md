@@ -101,6 +101,13 @@
 1. 创建[TestOrder](src/main/java/grape/learn/netty/protocol/http/xml/TestOrder.java)，在IDE中执行TestOrder时请**务必在Run Configuration中的Build中添加Ant中的bind任务**
     
 ##### 2、Http+XML的服务示例
+
+###### Quick Start
+```jshelllanguage
+mvn clean compile antrun:run@bindgen jibx:bind exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyHttpXmlOrderServer"
+
+mvn exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyHttpXmlOrderClient"
+```
   
 ###### Client发送请求 Server接收请求实现
 

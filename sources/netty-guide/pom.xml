@@ -58,9 +58,57 @@
 			<artifactId>jibx-run</artifactId>
 			<version>${jibx.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jibx</groupId>
+			<artifactId>jibx-extras</artifactId>
+			<version>${jibx.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-
+		<plugins>
+			<!--引用maven-antrun-plugin,调用ant中的bindgen target完成Object生成binding.xml的目标-->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>bindgen</id>
+						<configuration>
+							<target>
+								<ant antfile="${basedir}/build.xml">
+									<target name="bindgen"/>
+								</ant>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--引用jibx-maven-plugin完成jibx的binding compile目标-->
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>jibx-maven-plugin</artifactId>
+				<version>${jibx.version}</version>
+				<configuration>
+					<schemaBindingDirectory>target</schemaBindingDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bind</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--引用exec-maven-plugin执行main函数-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+			</plugin>
+		</plugins>
 	</build>
 </project>
