@@ -122,3 +122,12 @@ mvn exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyH
 1. Server端回复数据，从pipeline协议编码时序图来说，首先需要自定义编码器HttpXmlResponseEncoder将HttpXmlResponse对象编码为FullHttpResponse对象，然后使用Netty提供的HttpEncoder将FullHttpResponse对象编码为字节码
 1. Client端接收响应数据，从pipeline协议解码时序图来说，首先需要借助于HttpRequestDecoder和HttpObjectAggregator将字节流解码为FullHttpResponse对象，然后使用自定义解码器HttpXmlResponseDecoder将FullHttpResponse对象解码为HttpXmlResponse对象，供应用层使用
 1. 依次在NettyHttpXmlOrderServer和NettyHttpXmlOrderClient 中追加以上自定义的编解码器，并补充完善业务Handler
+
+#### 三、WebSocket 协议开发
+
+##### 1、[WebSocket协议基础](https://www.websocket.org/aboutwebsocket.html)
+
+
+
+
+
