@@ -32,15 +32,13 @@ public class NettyMessageServerHandSharkeHandler extends SimpleChannelInboundHan
   }
 
   private void handleHandSharker(ChannelHandlerContext ctx) {
-    String remoteAddress = ctx.channel().remoteAddress().toString();
-    if (authMap.containsKey(remoteAddress)) {
-      System.err.println("Host : " + remoteAddress + " has repeat handshark.");
+    String loginIp = getChannelLoginIp(ctx);
+    if (authMap.containsKey(loginIp)) {
+      System.err.println("Host : " + loginIp + " has repeat handshark.");
       ctx.writeAndFlush(buildNettyMessageResponse((byte) -1));
       return;
     }
     boolean isLoginOk = false;
-    InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
-    String loginIp = address.getAddress().getHostAddress();
     for (String ip : whiteList) {
       if (ip.equals(loginIp)) {
         isLoginOk = true;
@@ -48,13 +46,13 @@ public class NettyMessageServerHandSharkeHandler extends SimpleChannelInboundHan
       }
     }
     if (!isLoginOk) {
-      System.err.println("Host : " + remoteAddress + " has not in whitelist.");
+      System.err.println("Host : " + loginIp + " has not in whitelist.");
       ctx.writeAndFlush(buildNettyMessageResponse((byte) -2));
       return;
     }
 
-    authMap.put(remoteAddress, true);
-    System.out.println("Host : " + remoteAddress + " handshark success.");
+    authMap.put(loginIp, true);
+    System.out.println("Host : " + loginIp + " handshark success.");
     ctx.writeAndFlush(buildNettyMessageResponse((byte) 0));
   }
 
@@ -67,5 +65,30 @@ public class NettyMessageServerHandSharkeHandler extends SimpleChannelInboundHan
       message.setBody(body);
     }
     return message;
+  }
+
+  private String getChannelLoginIp(ChannelHandlerContext ctx) {
+    InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
+    String loginIp = address.getAddress().getHostAddress();
+    return loginIp;
+  }
+
+  private void clearChannelLoginIp(ChannelHandlerContext ctx) {
+    String loginIp = getChannelLoginIp(ctx);
+    authMap.remove(loginIp);
+    System.out.println("server finish clear host:" + loginIp);
+  }
+
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    // 发生异常时要清理当前channel的登录信息
+    clearChannelLoginIp(ctx);
+    ctx.fireExceptionCaught(cause);
+  }
+
+  @Override
+  public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    clearChannelLoginIp(ctx);
+    super.channelInactive(ctx);
   }
 }

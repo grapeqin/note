@@ -136,7 +136,7 @@ mvn exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyH
 3. 简易Client、Server，完成Client问Server应答的基本功能，并验证编解码器是否如预期工作
 4. 握手认证 client端建立完连接后 向server发送握手请求消息，server端完成登录和白名单校验后，返回握手成功消息
 5. 心跳检测 client端在完成与server端的握手后，定时每5S向server发送心跳请求消息并接受服务端的心跳响应，server端接收到心跳请求后构造心跳响应回复client端
-6. //TODO client端失败重连
+6. client端失败重连
 
 
 

@@ -18,5 +18,6 @@ public class NettyMessageClientHandler extends SimpleChannelInboundHandler<Netty
   @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
     cause.printStackTrace();
+    ctx.close();
   }
 }

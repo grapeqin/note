@@ -15,4 +15,9 @@ public class NettyMessageServerHandler extends SimpleChannelInboundHandler<Netty
   protected void messageReceived(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
     // TODO 业务处理
   }
+
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    cause.printStackTrace();
+  }
 }

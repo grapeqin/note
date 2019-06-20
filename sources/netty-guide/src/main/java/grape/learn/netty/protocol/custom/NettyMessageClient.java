@@ -1,8 +1,13 @@
 package grape.learn.netty.protocol.custom;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -16,16 +21,23 @@ import io.netty.handler.codec.marshalling.UnmarshallerProvider;
 /**
  * 自定义消息Client端实现
  *
+ * <p>断连重连
+ *
  * @author grape
  * @date 2019-06-17
  */
 public class NettyMessageClient {
+
+  ExecutorService executorService =
+      new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+
+  EventLoopGroup g = new NioEventLoopGroup();
+
   public static void main(String[] args) {
     new NettyMessageClient().run(8080);
   }
 
   public void run(int port) {
-    EventLoopGroup g = new NioEventLoopGroup();
     Bootstrap b = new Bootstrap();
 
     MarshallerProvider marshallerProvider = MarshallerCodecFactory.createMarshallerProvider();
@@ -49,10 +61,28 @@ public class NettyMessageClient {
             });
 
     try {
-      System.out.println("client has connect successful!");
-      b.connect(new InetSocketAddress(port)).sync().channel().closeFuture().sync();
+      ChannelFuture future = b.connect(new InetSocketAddress(port)).sync();
+      if (future.isSuccess()) {
+        System.out.println("client has connect successful");
+      }
+
+      future.channel().closeFuture().sync();
     } catch (InterruptedException e) {
-      g.shutdownGracefully();
+      e.printStackTrace();
+    } finally {
+      // 发起重连操作
+      executorService.execute(
+          new Runnable() {
+            @Override
+            public void run() {
+              try {
+                Thread.sleep(5000);
+                NettyMessageClient.this.run(port);
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+            }
+          });
     }
   }
 }
