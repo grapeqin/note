@@ -17,6 +17,7 @@ import io.netty.handler.codec.marshalling.MarshallerProvider;
 import io.netty.handler.codec.marshalling.MarshallingDecoder;
 import io.netty.handler.codec.marshalling.MarshallingEncoder;
 import io.netty.handler.codec.marshalling.UnmarshallerProvider;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 
 /**
  * 自定义消息Client端实现
@@ -34,7 +35,12 @@ public class NettyMessageClient {
   EventLoopGroup g = new NioEventLoopGroup();
 
   public static void main(String[] args) {
-    new NettyMessageClient().run(8080);
+    int port = 8080;
+    if (args.length == 1) {
+      port = Integer.parseInt(args[0]);
+    }
+
+    new NettyMessageClient().run(port);
   }
 
   public void run(int port) {
@@ -54,6 +60,7 @@ public class NettyMessageClient {
                 ch.pipeline()
                     .addLast(marshallingEncoder)
                     .addLast(marshallingDecoder)
+                    .addLast(new ReadTimeoutHandler(50))
                     .addLast(new NettyMessageClientHandSharkeHandler())
                     .addLast(new NettyMessageClientHeartbeatHandler())
                     .addLast(new NettyMessageClientHandler());

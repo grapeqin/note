@@ -23,8 +23,13 @@ public class NettyMessageServerHandSharkeHandler extends SimpleChannelInboundHan
 
   @Override
   protected void messageReceived(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
+    System.err.println("current handsharke handler : " + this);
     if (null != msg.getHeader() && msg.getHeader().getType() == Type.HANDSHARKE_REQ.getValue()) {
-      System.out.println("server received handsharke request message : " + msg);
+      System.out.println(
+          "server "
+              + ctx.channel().remoteAddress()
+              + " received handsharke request message : "
+              + msg);
       handleHandSharker(ctx);
     } else {
       ctx.fireChannelRead(msg);
