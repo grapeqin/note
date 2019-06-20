@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.marshalling.MarshallingDecoder;
 import io.netty.handler.codec.marshalling.MarshallingEncoder;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
 /**
@@ -30,8 +31,12 @@ public class NettyMessageServer {
 
     ServerBootstrap b = new ServerBootstrap();
 
+    NettyMessageServerHandSharkeHandler handSharkeHandler =
+        new NettyMessageServerHandSharkeHandler();
+
     b.group(g, c)
         .channel(NioServerSocketChannel.class)
+        .handler(new LoggingHandler())
         .childHandler(
             new ChannelInitializer<SocketChannel>() {
               @Override
@@ -42,7 +47,7 @@ public class NettyMessageServer {
                     .addLast(
                         new MarshallingEncoder(MarshallerCodecFactory.createMarshallerProvider()))
                     .addLast("timeoutHandler", new ReadTimeoutHandler(50))
-                    .addLast("handsharkeHandler", new NettyMessageServerHandSharkeHandler())
+                    .addLast("handsharkeHandler", handSharkeHandler)
                     .addLast("heartbeatHandler", new NettyMessageServerHeartbeatHandler())
                     .addLast("myHandler", new NettyMessageServerHandler());
               }

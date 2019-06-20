@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import grape.learn.netty.protocol.custom.Header.Type;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -14,6 +15,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @author grape
  * @date 2019-06-19
  */
+@Sharable
 public class NettyMessageServerHandSharkeHandler extends SimpleChannelInboundHandler<NettyMessage> {
 
   /** 存放认证信息 */

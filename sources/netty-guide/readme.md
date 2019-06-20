@@ -138,8 +138,9 @@ mvn exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyH
 5. 心跳检测 client端在完成与server端的握手后，定时每5S向server发送心跳请求消息并接受服务端的心跳响应，server端接收到心跳请求后构造心跳响应回复client端
 6. client端失败重连
 
-遗留问题：NettyMessageServerHandSharkeHandler 代码中
+- Q1：NettyMessageServerHandSharkeHandler 代码中
 想通过成员变量存储服务端所有的登录认证信息，但发现每个新的client过来时 都会new一个新的实例导致结果与预期不符.
+- 通过在类NettyMessageServerHandSharkeHandler添加Sharable注解，即可实现单实例在多个连接中共用，达到单实例管理多连接状态的目标
 
 
 
