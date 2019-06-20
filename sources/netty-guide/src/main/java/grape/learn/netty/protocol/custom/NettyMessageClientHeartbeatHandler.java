@@ -51,6 +51,14 @@ public class NettyMessageClientHeartbeatHandler extends SimpleChannelInboundHand
   }
 
   @Override
+  public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    if (null != scheduledFuture) {
+      scheduledFuture.cancel(true);
+    }
+    ctx.fireChannelInactive();
+  }
+
+  @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
     if (null != scheduledFuture) {
       scheduledFuture.cancel(true);
