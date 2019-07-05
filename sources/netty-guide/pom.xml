@@ -19,6 +19,7 @@
 		<msgpack.version>0.8.16</msgpack.version>
 		<jibx.version>1.3.1</jibx.version>
 		<jboss.mashalling.version>1.4.11.Final</jboss.mashalling.version>
+		<slf4j.version>1.7.26</slf4j.version>
 	</properties>
 
 	<dependencies>
@@ -75,6 +76,18 @@
 			<groupId>org.jboss.marshalling</groupId>
 			<artifactId>jboss-marshalling-serial</artifactId>
 			<version>${jboss.mashalling.version}</version>
+		</dependency>
+
+		<!-- log -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
 

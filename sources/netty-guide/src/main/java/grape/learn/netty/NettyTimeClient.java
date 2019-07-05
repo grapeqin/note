@@ -2,6 +2,8 @@ package grape.learn.netty;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -15,6 +17,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  * Netty 实现TimeServer Client端
@@ -48,6 +52,7 @@ public class NettyTimeClient {
                 new ChannelInitializer<SocketChannel>() {
                   @Override
                   protected void initChannel(SocketChannel ch) throws Exception {
+                    ch.pipeline().addLast(new IdleStateHandler(15, 22, 33));
                     ch.pipeline().addLast(new TimeClientHandler());
                   }
                 });
@@ -69,6 +74,8 @@ public class NettyTimeClient {
 
   /** 时间服务器 client端 业务逻辑处理 */
   private static class TimeClientHandler extends ChannelHandlerAdapter {
+
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     private final ByteBuf message;
 
@@ -95,6 +102,17 @@ public class NettyTimeClient {
       buf.readBytes(bytes);
       String rsp = new String(bytes, StandardCharsets.UTF_8);
       System.out.println("server response msg : " + rsp);
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+      if (evt instanceof IdleStateEvent) {
+        System.out.println(
+            dateTimeFormatter.format(LocalDateTime.now())
+                + " idleHandler : "
+                + ((IdleStateEvent) evt).state());
+      }
+      super.userEventTriggered(ctx, evt);
     }
   }
 }

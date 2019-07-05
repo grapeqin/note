@@ -142,6 +142,33 @@ mvn exec:java -Dexec.mainClass="grape.learn.netty.protocol.http.xml.order.NettyH
 想通过成员变量存储服务端所有的登录认证信息，但发现每个新的client过来时 都会new一个新的实例导致结果与预期不符.
 - 通过在类NettyMessageServerHandSharkeHandler添加Sharable注解，即可实现单实例在多个连接中共用，达到单实例管理多连接状态的目标
 
+#### 五、源码分析
+
+* ByteBuf和相关辅助类
+
+1. 顺序read
+1. 顺序write
+1. readerIndex和writerIndex
+1. readableBytes和writeableBytes
+1. discardBytes
+1. clear
+- 操作readerIndex = writerIndex = 0
+1. Mark 和 Rest
+1. 查找操作
+1. Derived buffers
+1. 转换成标准的ByteBuffer
+1. 随机读写(set 和 get)
+
+* ByteBuf源码分析
+
+分类
+
+1. 从内存分配角度看 分为 HeapByteBuf和DirectByteBuf
+1. 从内存回收角度看 分为 对象池ByteBuf和普通ByteBuf
+
+
+
+
 
 
 

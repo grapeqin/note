@@ -72,15 +72,12 @@ public class NettyMessageClient {
     } finally {
       // 发起重连操作
       g.execute(
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                Thread.sleep(5000);
-                NettyMessageClient.this.run(port);
-              } catch (InterruptedException e) {
-                e.printStackTrace();
-              }
+          () -> {
+            try {
+              Thread.sleep(5000);
+              NettyMessageClient.this.run(port);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
             }
           });
     }
