@@ -3,10 +3,10 @@ package grape.learn.netty.codec;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -62,7 +62,7 @@ public class NettyFixedLengthEchoServer {
     }
   }
 
-  private static class EchoServerHandler extends ChannelHandlerAdapter {
+  private static class EchoServerHandler extends SimpleChannelInboundHandler {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
       cause.printStackTrace();
@@ -70,7 +70,7 @@ public class NettyFixedLengthEchoServer {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
       System.out.println("server received msg : " + msg);
       String body = (String) msg;
       ctx.writeAndFlush(Unpooled.copiedBuffer(body.getBytes()));

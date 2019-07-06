@@ -20,7 +20,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 public class WebSocketServerHandshakerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
     // 1.解码失败直接返回
     if (!req.getDecoderResult().isSuccess()) {
       sendErrorResponse(ctx, HttpResponseStatus.BAD_REQUEST);

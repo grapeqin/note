@@ -18,7 +18,7 @@ public class NettyMessageClientHeartbeatHandler extends SimpleChannelInboundHand
   private ScheduledFuture scheduledFuture;
 
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
     // 如果服务器端握手登录成功，则发送心跳请求
     if (null != msg && null != msg.getHeader()) {
       if (msg.getHeader().getType() == Type.HANDSHARK_RSP.getValue()) {

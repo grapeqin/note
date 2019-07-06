@@ -2,10 +2,10 @@ package grape.learn.netty.codec.msgpack;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -55,7 +55,7 @@ public class NettyMsgPackEchoServer {
     }
   }
 
-  private static class EchoServerHandler extends ChannelHandlerAdapter {
+  private static class EchoServerHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -63,7 +63,7 @@ public class NettyMsgPackEchoServer {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
       UserInfo userInfo = (UserInfo) msg;
       System.out.println("server receive msg : " + userInfo);
     }

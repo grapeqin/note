@@ -12,7 +12,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class NettyMessageServerHandler extends SimpleChannelInboundHandler<NettyMessage> {
 
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
     // TODO 业务处理
   }
 

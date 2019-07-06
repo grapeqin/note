@@ -7,8 +7,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpHeaders.Names;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 
@@ -29,9 +29,9 @@ public class HttpXmlResponseEncoder extends AbstractHttpXmlEncoder<HttpXmlRespon
     } else {
       response =
           new DefaultFullHttpResponse(
-              msg.getResponse().getProtocolVersion(), msg.getResponse().getStatus(), body);
+              msg.getResponse().protocolVersion(), msg.getResponse().status(), body);
     }
-    HttpHeaders.setHeader(response, Names.CONTENT_TYPE, "text/xml");
+    HttpHeaders.setHeader(response, HttpHeaderNames.CONTENT_TYPE, "text/xml");
     HttpHeaders.setContentLength(response, body.readableBytes());
     out.add(response);
   }

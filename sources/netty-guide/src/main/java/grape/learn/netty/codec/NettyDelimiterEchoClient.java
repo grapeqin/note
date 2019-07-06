@@ -5,11 +5,11 @@ import java.net.InetSocketAddress;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -68,21 +68,22 @@ public class NettyDelimiterEchoClient {
   }
 
   /** EchoClient handler处理类 */
-  private static class EchoClientHandler extends ChannelHandlerAdapter {
+  private static class EchoClientHandler extends SimpleChannelInboundHandler<Object> {
+
     private int counter;
     private final String msg = "Hello grapeQin,Welcome to the world of Netty." + DELIMITER;
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+      String messgge = (String) msg;
+      System.out.println("client receive message :" + messgge + ",counter:" + ++counter);
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
       for (int i = 0; i < 10; i++) {
         ctx.writeAndFlush(Unpooled.copiedBuffer(msg.getBytes()));
       }
-    }
-
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-      String messgge = (String) msg;
-      System.out.println("client receive message :" + messgge + ",counter:" + ++counter);
     }
 
     @Override

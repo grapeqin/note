@@ -38,22 +38,22 @@ public class DiscardClient {
 
   public static void main(String[] args) throws Exception {
     // Print usage if no argument is specified.
-    if (args.length < 2 || args.length > 3) {
-      System.err.println(
-          "Usage: "
-              + DiscardClient.class.getSimpleName()
-              + " <host> <port> [<first message size>]");
-      return;
-    }
+    System.err.println(
+        "Usage: " + DiscardClient.class.getSimpleName() + " <host> <port> [<first message size>]");
 
     // Parse options.
-    final String host = args[0];
-    final int port = Integer.parseInt(args[1]);
-    final int firstMessageSize;
-    if (args.length == 3) {
+    String host = "localhost";
+    int port = 8080;
+    int firstMessageSize = 256;
+    if (args.length == 1) {
+      host = args[0];
+    } else if (args.length == 2) {
+      host = args[0];
+      port = Integer.parseInt(args[1]);
+    } else if (args.length == 3) {
+      host = args[0];
+      port = Integer.parseInt(args[1]);
       firstMessageSize = Integer.parseInt(args[2]);
-    } else {
-      firstMessageSize = 256;
     }
 
     new DiscardClient(host, port, firstMessageSize).run();

@@ -10,7 +10,7 @@ public class DiscardServerHandler extends SimpleChannelInboundHandler<Object> {
   private static final Logger logger = LoggerFactory.getLogger(DiscardServerHandler.class);
 
   @Override
-  public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
+  public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
     logger.debug(String.format("server has received message : %s", msg));
   }
 

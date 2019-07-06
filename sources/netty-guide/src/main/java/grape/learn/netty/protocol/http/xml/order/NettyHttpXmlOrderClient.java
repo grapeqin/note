@@ -4,10 +4,10 @@ import java.net.InetSocketAddress;
 
 import grape.learn.netty.protocol.http.xml.pojo.Order;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -57,7 +57,7 @@ public class NettyHttpXmlOrderClient {
     }
   }
 
-  private static class OrderClientHandler extends ChannelHandlerAdapter {
+  private static class OrderClientHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -74,7 +74,7 @@ public class NettyHttpXmlOrderClient {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
       System.out.println("============================================");
       if (msg instanceof HttpXmlResponse) {
         System.out.println("server response:" + msg);

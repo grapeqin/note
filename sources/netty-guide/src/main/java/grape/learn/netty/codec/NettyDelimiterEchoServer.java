@@ -3,11 +3,11 @@ package grape.learn.netty.codec;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -70,24 +70,24 @@ public class NettyDelimiterEchoServer {
   }
 
   /** 处理业务逻辑的handler */
-  private static class EchoServerHandler extends ChannelHandlerAdapter {
+  private static class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
 
     private int counter;
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-      cause.printStackTrace();
-      ctx.close();
-    }
-
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
       String message = (String) msg;
       System.out.println("server has received message:" + message + ",counter:" + ++counter);
 
       // 由于采用了delimiter解码器，应用层消息必须包含该分隔符，否则解码层会有问题
       message += DELIMITER;
       ctx.writeAndFlush(Unpooled.copiedBuffer(message.getBytes()));
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+      cause.printStackTrace();
+      ctx.close();
     }
   }
 }

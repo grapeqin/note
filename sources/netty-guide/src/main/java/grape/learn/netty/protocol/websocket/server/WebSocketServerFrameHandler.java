@@ -17,7 +17,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 public class WebSocketServerFrameHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, WebSocketFrame msg) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame msg) throws Exception {
 
     if (msg instanceof CloseWebSocketFrame) {
       // 关闭WebSocket通道的数据包

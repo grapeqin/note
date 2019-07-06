@@ -1,4 +1,4 @@
-* 以下所有示例均基于**netty-all.5.0.0.Alpha1**
+* 以下所有示例均基于**netty-all.4.1.37.Final**
 
 ## 基于Netty实现TimeServer(入门版)
 

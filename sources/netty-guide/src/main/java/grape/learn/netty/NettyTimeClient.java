@@ -9,11 +9,11 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -73,7 +73,7 @@ public class NettyTimeClient {
   }
 
   /** 时间服务器 client端 业务逻辑处理 */
-  private static class TimeClientHandler extends ChannelHandlerAdapter {
+  private static class TimeClientHandler extends SimpleChannelInboundHandler {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
@@ -96,7 +96,7 @@ public class NettyTimeClient {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
       ByteBuf buf = (ByteBuf) msg;
       byte[] bytes = new byte[buf.readableBytes()];
       buf.readBytes(bytes);

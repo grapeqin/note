@@ -1,8 +1,8 @@
 package grape.learn.netty.protocol.custom;
 
 import grape.learn.netty.protocol.custom.Header.Type;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
  * 客户端握手认证请求和响应处理
@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
  * @author grape
  * @date 2019-06-19
  */
-public class NettyMessageClientHandSharkeHandler extends ChannelHandlerAdapter {
+public class NettyMessageClientHandSharkeHandler extends SimpleChannelInboundHandler {
 
   @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -36,7 +36,7 @@ public class NettyMessageClientHandSharkeHandler extends ChannelHandlerAdapter {
   }
 
   @Override
-  public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+  public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
     if (null == msg) {
       ctx.fireChannelRead(msg);
       return;

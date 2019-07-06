@@ -24,7 +24,7 @@ public class NettyMessageServerHandSharkeHandler extends SimpleChannelInboundHan
   private String[] whiteList = new String[] {"172.16.1.111"};
 
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
     System.err.println("current handsharke handler : " + this);
     if (null != msg.getHeader() && msg.getHeader().getType() == Type.HANDSHARKE_REQ.getValue()) {
       System.out.println(

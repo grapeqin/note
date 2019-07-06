@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -72,7 +72,7 @@ public class StickUnpackResolvedNettyTimeServer {
     }
   }
 
-  private static class StickUnpackResolvedTimeServerHandler extends ChannelHandlerAdapter {
+  private static class StickUnpackResolvedTimeServerHandler extends SimpleChannelInboundHandler {
 
     /** 计数器 */
     private int counter;
@@ -84,7 +84,7 @@ public class StickUnpackResolvedNettyTimeServer {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
       String body = (String) msg;
       System.out.println("client send message : " + body + " ,counter =" + ++counter);
       String rsp = "BAD REQUEST!";

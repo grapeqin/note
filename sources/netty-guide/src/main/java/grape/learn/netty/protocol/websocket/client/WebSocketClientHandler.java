@@ -31,7 +31,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
   }
 
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
     if (!clientHandshaker.isHandshakeComplete()) {
       clientHandshaker.finishHandshake(ctx.channel(), (FullHttpResponse) msg);
       System.out.println("client has finish handshake");

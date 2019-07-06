@@ -12,7 +12,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class NettyMessageServerHeartbeatHandler extends SimpleChannelInboundHandler<NettyMessage> {
   @Override
-  protected void messageReceived(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
+  protected void channelRead0(ChannelHandlerContext ctx, NettyMessage msg) throws Exception {
     if (null != msg.getHeader() && Type.HEARTBEAT_REQ.getValue() == msg.getHeader().getType()) {
       System.out.println("server receive heartbeat message : <----- :" + msg);
       NettyMessage message = buildHeartBeatResponseMessage();
